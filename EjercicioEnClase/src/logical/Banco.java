@@ -10,15 +10,36 @@ public class Banco {
     
     private ArrayList<Cuenta> cuentas;
     private ArrayList<Cliente> clientes;
-
+    private static Banco banco = null;
     
-    public Banco() {
+    private Banco() {
+    	super();
         cuentas = new ArrayList<Cuenta>();
         clientes = new ArrayList<Cliente>();
     }
     
+    public static Banco getInstance()
+    {
+    	if(banco == null)
+    	{
+    		banco = new Banco();
+    	}
+    	return banco;
+    }
+    //    private String cedula, nombre, apellidos, direccion, telefono;
+
     
+    public void agregarCliente(String cedula, String nombre, String apellidos, String direccion, String telefono)
+    {
+    	Cliente cliente = new Cliente(cedula, nombre, apellidos, direccion, telefono, cuentas);
+    	clientes.add(cliente);
+    }
     
+    public void agregarCuenta(Cliente cliente, Cuenta cuenta)
+    {
+    	ArrayList<Cuenta> cuentasCliente = cliente.getCuentas();
+    	cuentasCliente.add(cuenta);
+    }
     //C
     public double revision(String cedula)
     {

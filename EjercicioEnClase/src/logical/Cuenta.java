@@ -11,9 +11,9 @@ abstract class Cuenta {
     protected int comision = 3;//3
     protected double saldo;
             
-    public Cuenta(String codigo, int mesesApertura, int corteDelMes, int puntos, String estado, double saldo) {
+    public Cuenta(String codigo, int corteDelMes, int puntos, String estado, double saldo) {
         this.codigo = codigo;
-        this.mesesApertura = mesesApertura;
+        this.mesesApertura = 0;
         this.corteDelMes = corteDelMes;
         this.puntos = puntos;
         this.estado = estado;
