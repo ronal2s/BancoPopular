@@ -28,7 +28,10 @@ public class Banco {
     }
     //    private String cedula, nombre, apellidos, direccion, telefono;
 
-    
+    public ArrayList<Cliente> getClientes()
+    {
+    	return clientes;
+    }
     public void agregarCliente(String cedula, String nombre, String apellidos, String direccion, String telefono)
     {
     	Cliente cliente = new Cliente(cedula, nombre, apellidos, direccion, telefono, cuentas);

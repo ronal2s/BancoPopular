@@ -1,5 +1,5 @@
 package logical;
-abstract class Cuenta {
+public abstract class Cuenta {
     /*Hay tres tipos de cuenta: Cuenta_Corriente (CC), Cuenta_Vivienda (CV) y Fondo_Inversion (FI). */
     /*Las cuentas además posee código, meses de apertura y día de corte del mes y estado (habilitada, bloqueada o cancelada), */
     //Puntos

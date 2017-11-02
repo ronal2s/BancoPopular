@@ -15,8 +15,8 @@ public class CV extends Cuenta{
     private int tiempoADurar;
     private double montoMensual;
     
-    public CV(String codigo, int mesesApertura, int corteDelMes, int puntos, String estado, double saldo, int tiempoADurar, double montoMensual) {
-        super(codigo, mesesApertura, corteDelMes, puntos, estado, saldo);
+    public CV(String codigo, int corteDelMes, int puntos, String estado, double saldo, int tiempoADurar, double montoMensual) {
+        super(codigo, corteDelMes, puntos, estado, saldo);
         this.tiempoADurar = tiempoADurar;
         this.montoMensual = montoMensual;
     }
