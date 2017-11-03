@@ -11,6 +11,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 
 public class Principal extends JFrame {
 
@@ -36,8 +38,10 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
+		setTitle("Banco Popular");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 1048, 604);
+		//this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null);
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -115,8 +119,13 @@ public class Principal extends JFrame {
 		mnLista.add(mntmClientes);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel label = new JLabel("");
+		label.setIcon(new ImageIcon(Principal.class.getResource("/img/bpd250x250.jpg")));
+		label.setBounds(0, 0, 1026, 561);
+		contentPane.add(label);
 	}
 
 }

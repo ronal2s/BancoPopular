@@ -130,10 +130,13 @@ pudo porque se han violado algunas de las restricciones del banco.
 	            double saldoActual = cuentaIngreso.getSaldo();
 	            saldoActual += montoIngreso;
 	            cuentaIngreso.setSaldo(saldoActual);
+	            cuentaIngreso.setPuntos(cuentaIngreso.getPuntos() + (montoIngreso/10));
+	        	JOptionPane.showMessageDialog(null, "Retirado correctamente");
+
 	        }
 	        else
 	        {
-	        	JOptionPane.showMessageDialog(null, "Cuenta no habilitada " + cuentaIngreso.getEstado());
+	        	JOptionPane.showMessageDialog(null, "Cuenta no habilitada ");
 	        }
         }catch(Exception e)
         {
@@ -142,12 +145,11 @@ pudo porque se han violado algunas de las restricciones del banco.
         return ingresado;
     }
     //F
-    public int puntosAcumulados(String cedula)
+    public int puntosAcumulados(String codigo)
     {
-    	/*int i = getCuentaOfCliente(cedula);;
-        Cuenta c = cuentas.get(i);
-        int puntosAcumulado = c.getPuntos();*/
-        return 0;
+    	int i = getCuentaOfCliente(codigo);
+    	
+        return cuentas.get(i).getPuntos();
     }
     
     public int getCuentaOfCliente(String numeroCuenta)

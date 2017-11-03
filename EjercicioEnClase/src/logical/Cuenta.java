@@ -59,7 +59,7 @@ public abstract class Cuenta {
     }
 
     public int getPuntos() {
-        return (int) (saldo/10);
+        return puntos;
     }
 
     public void setPuntos(int puntos) {

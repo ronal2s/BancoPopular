@@ -30,6 +30,7 @@ import javax.swing.JLabel;
 import java.awt.Toolkit;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import java.awt.SystemColor;
 
 public class ListarCuentas extends JDialog {
 
@@ -75,6 +76,7 @@ public class ListarCuentas extends JDialog {
 		setBounds(100, 100, 708, 254);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(SystemColor.activeCaption);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		{
@@ -125,6 +127,7 @@ public class ListarCuentas extends JDialog {
 		}
 		{
 			JPanel buttonPane = new JPanel();
+			buttonPane.setBackground(SystemColor.activeCaption);
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{

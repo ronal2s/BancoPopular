@@ -162,10 +162,11 @@ public class Listar extends JDialog {
 				getRootPane().setDefaultButton(botonOk);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				JButton cancelButton = new JButton("Revisi\u00F3n");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						dispose();
+						Double revision = Banco.getInstance().revision(id);
+						JOptionPane.showMessageDialog(null, "Saldo total: RD$" + revision);
 					}
 				});
 				cancelButton.setActionCommand("Cancel");
