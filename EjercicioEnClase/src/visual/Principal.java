@@ -38,7 +38,7 @@ public class Principal extends JFrame {
 	public Principal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
-		
+		setLocationRelativeTo(null);
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
@@ -48,7 +48,7 @@ public class Principal extends JFrame {
 		JMenuItem mntmRegistrarClientes = new JMenuItem("Registrar clientes");
 		mntmRegistrarClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegistrarCliente regCliente = new RegistrarCliente();
+				RegistrarCliente regCliente = new RegistrarCliente("registro");
 				regCliente.setModal(true);
 				regCliente.setVisible(true);
 			}
@@ -64,6 +64,55 @@ public class Principal extends JFrame {
 			}
 		});
 		mnRegistro.add(mntmRegistroDeCuenta);
+		
+		JMenu mnAcciones = new JMenu("Acciones");
+		menuBar.add(mnAcciones);
+		
+		JMenuItem mntmIngresarDinero = new JMenuItem("Ingresar dinero");
+		mntmIngresarDinero.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ManejarDinero dinero = new ManejarDinero("ingreso");
+				dinero.setModal(true);
+				dinero.setVisible(true);
+			}
+		});
+		mnAcciones.add(mntmIngresarDinero);
+		
+		JMenuItem mntmRetirarDinero = new JMenuItem("Retirar dinero");
+		mntmRetirarDinero.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ManejarDinero dinero = new ManejarDinero("retiro");
+				dinero.setModal(true);
+				dinero.setVisible(true);
+			}
+		});
+		mnAcciones.add(mntmRetirarDinero);
+		
+		JMenu mnBusqueda = new JMenu("Busqueda");
+		menuBar.add(mnBusqueda);
+		
+		JMenuItem mntmBuscarCliente = new JMenuItem("Buscar cliente");
+		mntmBuscarCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegistrarCliente regCliente = new RegistrarCliente("buscar");
+				regCliente.setModal(true);
+				regCliente.setVisible(true);
+			}
+		});
+		mnBusqueda.add(mntmBuscarCliente);
+		
+		JMenu mnLista = new JMenu("Lista");
+		menuBar.add(mnLista);
+		
+		JMenuItem mntmClientes = new JMenuItem("Clientes");
+		mntmClientes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Listar listar = new Listar("clientes");
+				listar.setModal(true);
+				listar.setVisible(true);
+			}
+		});
+		mnLista.add(mntmClientes);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));

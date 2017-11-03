@@ -41,6 +41,8 @@ public class RegistrarCuenta extends JDialog {
 	private JPanel FIPanel;
 	private JComboBox comboCliente;
 	private JSpinner spinnerTiempo;
+	private JTextField txtMontoMaximo;
+	private JPanel CCPanel;
 	/**
 	 * Launch the application.
 	 */
@@ -60,7 +62,7 @@ public class RegistrarCuenta extends JDialog {
 	public RegistrarCuenta() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RegistrarCuenta.class.getResource("/img/if_user_173122.png")));
 		setTitle("Registro de cuenta");
-		setBounds(100, 100, 547, 392);
+		setBounds(100, 100, 562, 392);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -89,7 +91,7 @@ public class RegistrarCuenta extends JDialog {
 		contentPanel.add(txtSaldo);
 		
 		JLabel lblDireccin = new JLabel("Saldo");
-		lblDireccin.setBounds(356, 149, 92, 14);
+		lblDireccin.setBounds(277, 149, 92, 14);
 		contentPanel.add(lblDireccin);
 		
 		JLabel label = new JLabel("");
@@ -121,9 +123,9 @@ public class RegistrarCuenta extends JDialog {
 			public void actionPerformed(ActionEvent arg0) {
 				switch(comboCuenta.getSelectedItem().toString())
 				{
-				case "Cuenta Corriente": CVPanel.setVisible(false); FIPanel.setVisible(false); break;
-				case "Cuenta Vivienda": CVPanel.setVisible(true); FIPanel.setVisible(false); break;
-				case "Fondo Inversión": FIPanel.setVisible(true); CVPanel.setVisible(false); break;
+				case "Cuenta Corriente": CCPanel.setVisible(true); CVPanel.setVisible(false); FIPanel.setVisible(false); break;
+				case "Cuenta Vivienda": CVPanel.setVisible(true); CCPanel.setVisible(false); FIPanel.setVisible(false); break;
+				case "Fondo Inversión": FIPanel.setVisible(true); CCPanel.setVisible(false); CVPanel.setVisible(false); break;
 				}
 			}
 		});
@@ -151,31 +153,13 @@ public class RegistrarCuenta extends JDialog {
 				txtInteresFijo.setEnabled(enabled);
 				txtMontoMensual.setEnabled(enabled);
 				txtSaldo.setEnabled(enabled);
+				txtMontoMaximo.setEnabled(enabled);
 				spinnerCorte.setEnabled(enabled);
 				spinnerTiempo.setEnabled(enabled);
 				comboEstado.setEnabled(enabled);
 
 			}
 		});
-		comboCliente.setModel(new DefaultComboBoxModel(new String[] {"Seleccionar"}));
-		comboCliente.setBounds(285, 43, 217, 26);
-		contentPanel.add(comboCliente);
-		
-		FIPanel = new JPanel();
-		FIPanel.setBounds(25, 200, 523, 90);
-		contentPanel.add(FIPanel);
-		FIPanel.setLayout(null);
-		
-		txtInteresFijo = new JTextField();
-		txtInteresFijo.setEnabled(false);
-		txtInteresFijo.setHorizontalAlignment(SwingConstants.RIGHT);
-		txtInteresFijo.setColumns(10);
-		txtInteresFijo.setBounds(126, 46, 202, 23);
-		FIPanel.add(txtInteresFijo);
-		
-		JLabel lblIntersFijo = new JLabel("Inter\u00E9s fijo");
-		lblIntersFijo.setBounds(126, 16, 129, 14);
-		FIPanel.add(lblIntersFijo);
 		
 		CVPanel = new JPanel();
 		CVPanel.setBounds(25, 200, 523, 90);
@@ -202,6 +186,41 @@ public class RegistrarCuenta extends JDialog {
 		lblMontoMensual.setBounds(279, 8, 129, 14);
 		CVPanel.add(lblMontoMensual);
 		CVPanel.setVisible(false);
+		comboCliente.setModel(new DefaultComboBoxModel(new String[] {"Seleccionar"}));
+		comboCliente.setBounds(285, 43, 217, 26);
+		contentPanel.add(comboCliente);
+		
+		FIPanel = new JPanel();
+		FIPanel.setBounds(25, 200, 523, 90);
+		contentPanel.add(FIPanel);
+		FIPanel.setLayout(null);
+		
+		txtInteresFijo = new JTextField();
+		txtInteresFijo.setEnabled(false);
+		txtInteresFijo.setHorizontalAlignment(SwingConstants.RIGHT);
+		txtInteresFijo.setColumns(10);
+		txtInteresFijo.setBounds(126, 46, 202, 23);
+		FIPanel.add(txtInteresFijo);
+		
+		JLabel lblIntersFijo = new JLabel("Inter\u00E9s fijo");
+		lblIntersFijo.setBounds(126, 16, 129, 14);
+		FIPanel.add(lblIntersFijo);
+		
+		CCPanel = new JPanel();
+		CCPanel.setBounds(25, 200, 523, 90);
+		contentPanel.add(CCPanel);
+		CCPanel.setLayout(null);
+		
+		JLabel lblMontoMximo = new JLabel("Monto m\u00E1ximo");
+		lblMontoMximo.setBounds(124, 16, 106, 20);
+		CCPanel.add(lblMontoMximo);
+		
+		txtMontoMaximo = new JTextField();
+		txtMontoMaximo.setHorizontalAlignment(SwingConstants.RIGHT);
+		txtMontoMaximo.setEnabled(false);
+		txtMontoMaximo.setColumns(10);
+		txtMontoMaximo.setBounds(119, 40, 225, 23);
+		CCPanel.add(txtMontoMaximo);
 		FIPanel.setVisible(false);
 		{
 			JPanel buttonPane = new JPanel();
@@ -227,7 +246,9 @@ public class RegistrarCuenta extends JDialog {
 						
 						switch(comboCuenta.getSelectedItem().toString())
 						{
-							case "Cuenta Corriente": cuenta = new CC(codigo, corteDelMes, puntos, estado, saldo); break;
+							case "Cuenta Corriente": 
+								double montoMaximo = Double.valueOf(txtMontoMaximo.getText());
+								cuenta = new CC(codigo, corteDelMes, puntos, estado, saldo, montoMaximo); break;
 							case "Cuenta Vivienda": 
 								montoMensual = Double.valueOf(txtMontoMensual.getText());
 								tiempoADurar = Integer.valueOf(spinnerTiempo.getValue().toString());
@@ -244,6 +265,7 @@ public class RegistrarCuenta extends JDialog {
 						txtInteresFijo.setText("");
 						txtMontoMensual.setText("");
 						txtSaldo.setText("");
+						txtMontoMaximo.setText("");
 						comboEstado.setSelectedIndex(0);
 						comboCliente.setSelectedIndex(0);
 						spinnerCorte.setValue(0);

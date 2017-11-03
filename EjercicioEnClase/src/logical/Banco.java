@@ -2,6 +2,10 @@ package logical;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
+import jdk.nashorn.internal.scripts.JO;
+
 /**
  *
  * @author 20160207
@@ -32,6 +36,10 @@ public class Banco {
     {
     	return clientes;
     }
+    public ArrayList<Cuenta> getCuentas()
+    {
+    	return cuentas;
+    }
     public void agregarCliente(String cedula, String nombre, String apellidos, String direccion, String telefono)
     {
     	Cliente cliente = new Cliente(cedula, nombre, apellidos, direccion, telefono, cuentas);
@@ -58,15 +66,50 @@ pudo porque se han violado algunas de las restricciones del banco.
     //D
     public boolean retirarDinero(String numeroCuenta, int montoRetiro)
     {
-        Cuenta cuentaARetirar = getCuentaOfCliente(numeroCuenta);
+    	int i = getCuentaOfCliente(numeroCuenta);
+        Cuenta cuentaARetirar = cuentas.get(i);
         boolean retirado = false;
+        double montoActual = -1;
         if(cuentaARetirar.getEstado().equalsIgnoreCase("habilitada"))
         {
-            double montoActual = cuentaARetirar.getSaldo();
-            montoActual = montoActual - montoRetiro;
-            cuentaARetirar.setSaldo(montoActual);
-            retirado = true;
+        	montoActual = cuentaARetirar.getSaldo();
+
+        	if(cuentaARetirar instanceof CC && montoRetiro > cuentaARetirar.getSaldo())
+        	{
+        		JOptionPane.showMessageDialog(null, "No puedes retirar esta cantidad de dinero");
+        	}
+        	else
+        	{
+	            montoActual = montoActual - montoRetiro;
+	            cuentaARetirar.setSaldo(montoActual);
+	            retirado = true;
+        	}
+        	if(cuentaARetirar instanceof FI) 
+        	{
+        		if(montoRetiro > 500)
+        		{
+            		montoActual = (montoActual - montoRetiro) - (montoRetiro * 0.1) ;
+            		cuentaARetirar.setSaldo(montoActual);
+
+        		}
+        		else
+        		{
+        			montoActual = montoActual - montoRetiro;
+        			cuentaARetirar.setSaldo(montoActual);
+        		}
+        		retirado = true;
+        	}
+        	
+        	if(cuentaARetirar instanceof CV)
+        	{
+        		JOptionPane.showMessageDialog(null, "No se puede retirar dinero de esta cuenta");
+        		retirado = false;
+        	}
+        		
+
         }
+        if(retirado)
+        	JOptionPane.showMessageDialog(null, "Retirado correctamente");
         
         return retirado;
     }
@@ -78,36 +121,48 @@ pudo porque se han violado algunas de las restricciones del banco.
     public boolean ingresarDinero(String numeroCuenta, int montoIngreso)
     {
         boolean ingresado = false;
-        Cuenta cuentaIngreso = getCuentaOfCliente(numeroCuenta);
-        if(cuentaIngreso.getEstado().equalsIgnoreCase("habilitado"))
+        try
         {
-            double saldoActual = cuentaIngreso.getSaldo();
-            saldoActual += montoIngreso;
-            cuentaIngreso.setSaldo(saldoActual);
+        	int i = getCuentaOfCliente(numeroCuenta);
+	        Cuenta cuentaIngreso = cuentas.get(i);
+	        if(cuentaIngreso.getEstado().equalsIgnoreCase("habilitada"))
+	        {
+	            double saldoActual = cuentaIngreso.getSaldo();
+	            saldoActual += montoIngreso;
+	            cuentaIngreso.setSaldo(saldoActual);
+	        }
+	        else
+	        {
+	        	JOptionPane.showMessageDialog(null, "Cuenta no habilitada " + cuentaIngreso.getEstado());
+	        }
+        }catch(Exception e)
+        {
+        	JOptionPane.showMessageDialog(null, "Cuenta no existe");
         }
         return ingresado;
     }
     //F
     public int puntosAcumulados(String cedula)
     {
-        Cuenta c = getCuentaOfCliente(cedula);
-        int puntosAcumulado = c.getPuntos();
-        return puntosAcumulado;
+    	/*int i = getCuentaOfCliente(cedula);;
+        Cuenta c = cuentas.get(i);
+        int puntosAcumulado = c.getPuntos();*/
+        return 0;
     }
     
-    public Cuenta getCuentaOfCliente(String numeroCuenta)
+    public int getCuentaOfCliente(String numeroCuenta)
     {
         int i=0;
-        Cuenta c = null;
-        while(i< cuentas.size() || c == null)
+        int pos = -1;
+        while(i< cuentas.size() || pos == -1)
         {
             if(cuentas.get(i).getCodigo().equalsIgnoreCase(numeroCuenta))
             {
-                c = cuentas.get(i);
+                pos = i;
             }
             i++;
         }
-        return c;
+        return pos;
     }
     
     public Cliente buscarCliente(String cedula)

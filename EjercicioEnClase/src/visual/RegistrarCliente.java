@@ -9,8 +9,10 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import logical.Banco;
+import logical.Cliente;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -29,7 +31,7 @@ public class RegistrarCliente extends JDialog {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		try {
 			RegistrarCliente dialog = new RegistrarCliente();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -37,12 +39,12 @@ public class RegistrarCliente extends JDialog {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	/**
 	 * Create the dialog.
 	 */
-	public RegistrarCliente() {
+	public RegistrarCliente(String tipo) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RegistrarCliente.class.getResource("/img/if_user_173122.png")));
 		setTitle("Registro de clientes");
 		setBounds(100, 100, 525, 337);
@@ -56,6 +58,24 @@ public class RegistrarCliente extends JDialog {
 		contentPanel.add(lblCdulanmeroDeIdentidad);
 		
 		txtCedula = new JTextField();
+		txtCedula.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(!tipo.equalsIgnoreCase("Registro"))
+				{
+					try
+					{
+						Cliente cliente = Banco.getInstance().buscarCliente(txtCedula.getText());
+						txtNombre.setText(cliente.getNombre());
+						txtApellido.setText(cliente.getApellidos());
+						txtDireccion.setText(cliente.getDireccion());
+						txtTelefono.setText(cliente.getTelefono());
+					}catch(Exception e)
+					{
+						JOptionPane.showMessageDialog(null, "Cliente no existe");
+					}
+				}
+			}
+		});
 		txtCedula.setBounds(154, 41, 232, 23);
 		setLocationRelativeTo(null);
 		contentPanel.add(txtCedula);
@@ -101,11 +121,6 @@ public class RegistrarCliente extends JDialog {
 		label.setIcon(new ImageIcon(RegistrarCliente.class.getResource("/img/if_user_173122.png")));
 		label.setBounds(15, 16, 112, 128);
 		contentPanel.add(label);
-		
-		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 10, 10);
-		contentPanel.add(panel);
-		panel.setLayout(null);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -144,5 +159,24 @@ public class RegistrarCliente extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		if(tipo.equalsIgnoreCase("Registro"))
+		{
+			manejarCampos(true);
+			setTitle("Registrar cliente");
+		}
+		else
+		{
+			manejarCampos(false);
+			setTitle("Buscar cliente");
+		}
+	}
+	
+	public void manejarCampos(boolean enabled)
+	{
+		txtApellido.setEnabled(enabled);
+		txtDireccion.setEnabled(enabled);
+		txtNombre.setEnabled(enabled);
+		txtTelefono.setEnabled(enabled);
+		
 	}
 }
