@@ -258,9 +258,10 @@ public class RegistrarCuenta extends JDialog {
 								cuenta = new FI(codigo, corteDelMes, puntos, estado, saldo, interesFijo); break;
 						}
 						cliente = Banco.getInstance().buscarCliente(partes[0]);
-						clienteCuentas = cliente.getCuentas();
-						clienteCuentas.add(cuenta);
-						cliente.setCuentas(clienteCuentas);
+						//clienteCuentas = cliente.getCuentas();
+						//clienteCuentas.add(cuenta);
+						//cliente.setCuentas(clienteCuentas);
+						Banco.getInstance().agregarCuenta(cliente, cuenta);
 						txtCodigo.setText("");
 						txtInteresFijo.setText("");
 						txtMontoMensual.setText("");
